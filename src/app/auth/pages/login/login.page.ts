@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { AuthService } from 'src/app/core/services/auth.service';
+import { AuthProvider } from 'src/app/core/services/auth.types';
+import { OverlayService } from 'src/app/core/services/overlay.service';
 
 @Component({
   selector: 'app-login',
@@ -9,7 +12,7 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 export class LoginPage implements OnInit {
 
   authForm: FormGroup;
-
+  AuthPro = AuthProvider;
   configs = {
     isSignIn: true,
     action: 'Login',
@@ -19,7 +22,9 @@ export class LoginPage implements OnInit {
 
   private nameControl = new FormControl('', [Validators.required, Validators.minLength(3)])
 
-  constructor(private fb: FormBuilder,) { }
+  constructor(private authService: AuthService ,
+              private fb: FormBuilder, 
+              private overlay: OverlayService) { }
 
   ngOnInit():void {
     this.createForm();
@@ -52,7 +57,25 @@ export class LoginPage implements OnInit {
     !isSignIn ? this.authForm.addControl('name', this.nameControl) : this.authForm.removeControl('name');
   }
 
-  onSubmit():void{
-    console.log('Validação de Formulario', this.authForm.value)
+  async onSubmit(provider: AuthProvider):Promise<void>{
+    const loading = await this.overlay.loading();
+
+    try {
+      const credentials = await this.authService.authenticate({
+        isSignIn: this.configs.isSignIn,
+        user: this.authForm.value,
+        provider
+      });
+      console.log('Autenticação', credentials);
+      console.log('Autenticando...');
+    } catch (e) {
+      console.log('Erro ao autenticar: ', e);
+      await this.overlay.toast({
+        message: e.message
+      });
+    } finally{
+      loading.dismiss();
+
+    }
   }
 }
