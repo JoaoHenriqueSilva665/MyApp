@@ -1,9 +1,17 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>tasks-list</ion-title>
+  <ion-toolbar color="primary">
+    <ion-title>Lista de Tarefas</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="ion-padding">
+  <ion-list>
+   <app-task-item *ngFor="let task of (tasks$ | async)" [task]="task"></app-task-item>
+  </ion-list>
 
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button>
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
