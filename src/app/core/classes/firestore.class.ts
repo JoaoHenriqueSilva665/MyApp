@@ -13,11 +13,10 @@ export abstract class Firestore<T  extends { id: string }>{
     }
 
     private setItem(item: T, operation: string): Promise<T>{
-        this.collection
+        return this.collection
         .doc<T>(item.id)
         [operation](item)
         .then(() => item);
-        return Promise.resolve(null);
     }
 
     getAll(): Observable<T[]>{
