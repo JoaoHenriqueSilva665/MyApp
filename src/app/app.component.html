@@ -1,27 +1,25 @@
-<ion-app>
+<ion-split-pane when="sm">
 
-    <ion-menu>
+    <ion-menu menuId="ue" [disabled]="true">
 
         <ion-header>
-          <ion-toolbar color="primary">
-            <ion-title>Menu</ion-title>
-          </ion-toolbar>
+            <ion-toolbar color="primary">
+                <ion-title>Menu</ion-title>
+            </ion-toolbar>
         </ion-header>
 
         <ion-content>
-          <ion-list>
-            <ion-menu-toggle 
-                autoHide="false">
-                    <ion-item button *ngFor="let page of pag"
-                        [routerLink]="page.url"
-                        [routerDirection]="page.direction">
-                          <ion-icon slot="start" [name]="page.icon"></ion-icon>
-                              <ion-label>{{page.text}}</ion-label>
+            <ion-list>
+                <ion-list-header *ngIf="user">{{ user.displayName }}</ion-list-header>
+                <ion-menu-toggle autoHide="false">
+                    <ion-item button *ngFor="let page of pag" [routerLink]="page.url" [routerDirection]="page.direction">
+                        <ion-icon slot="start" [name]="page.icon"></ion-icon>
+                        <ion-label>{{page.text}}</ion-label>
                     </ion-item>
-            </ion-menu-toggle>
-          </ion-list>
+                </ion-menu-toggle>
+            </ion-list>
         </ion-content>
-      </ion-menu>
+    </ion-menu>
 
-  <ion-router-outlet main></ion-router-outlet>
-</ion-app>
+    <ion-router-outlet main></ion-router-outlet>
+</ion-split-pane>

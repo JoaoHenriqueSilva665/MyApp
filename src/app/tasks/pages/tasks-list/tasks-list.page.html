@@ -1,41 +1,29 @@
 <ion-header>
-  <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-      <ion-menu-toggle >
-        <ion-button>
-          <ion-icon slot="icon-only" name="menu"></ion-icon>
-        </ion-button>
-      </ion-menu-toggle>
-    </ion-buttons>
+    <ion-toolbar color="primary">
+        <app-menu-toggle slot="start" menu="ue"></app-menu-toggle>
+        <ion-title>Lista de Tarefas</ion-title>
+        <app-logout-button slot="end" menu="ue"></app-logout-button>
 
-    <ion-title>Lista de Tarefas</ion-title>
-
-  </ion-toolbar>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  
-  <ion-list *ngIf="(tasks$ | async) as tasks" >
 
-   <ng-container *ngIf="tasks.length > 0; else noTasks">
-      <app-task-item *ngFor="let task of tasks" 
-                      [task]="task" 
-                      (update)="onUpdate($event)" 
-                      (delete)="onDelete($event)"
-                      (done)="onDone($event)"
-                      ></app-task-item>
-   </ng-container>
+    <ion-list *ngIf="(tasks$ | async) as tasks">
 
-   <ng-template #noTasks>
-     <ion-item lines="none">No Task yet...</ion-item>
-   </ng-template>
+        <ng-container *ngIf="tasks.length > 0; else noTasks">
+            <app-task-item *ngFor="let task of tasks" [task]="task" (update)="onUpdate($event)" (delete)="onDelete($event)" (done)="onDone($event)"></app-task-item>
+        </ng-container>
 
-  </ion-list>
+        <ng-template #noTasks>
+            <ion-item lines="none">No Task yet...</ion-item>
+        </ng-template>
 
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button routerLink="/tasks/create" routerDirection="forward">
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
+    </ion-list>
+
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+        <ion-fab-button routerLink="/tasks/create" routerDirection="forward">
+            <ion-icon name="add"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
 </ion-content>
-

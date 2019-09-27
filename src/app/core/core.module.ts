@@ -15,7 +15,11 @@ import { environment } from 'src/environments/environment';
   imports: [IonicModule.forRoot(),
             AngularFireModule.initializeApp(environment.firebase), 
             AngularFireAuthModule,
-            AngularFirestoreModule],
+            AngularFirestoreModule.enablePersistence({
+              experimentalTabSynchronization: true
+            })
+          ],
+
   exports:[BrowserModule, IonicModule],
   providers: [
     StatusBar,
